@@ -10,7 +10,7 @@ whether hairtone fits their threat model / use case.
 educational use only** (the CelebAMask-HQ dataset it was trained on is
 research-only). Commercial users must either retrain on a permissively
 licensed dataset or plug a different checkpoint / backend in through the
-`HairtoneBackend` protocol. hairtone's own code is MIT.
+`HairtoneBackend` protocol. hairtone's own code is Apache 2.0.
 
 ## L2 — `HairtoneBackend` runs third-party code in-process
 

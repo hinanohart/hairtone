@@ -1,8 +1,8 @@
 # Third-party notices
 
-`hairtone` itself is released under the [MIT License](LICENSE). This
-document lists third-party components it vendors or interoperates with
-at run time; users are responsible for honouring each license.
+`hairtone` itself is released under the [Apache License 2.0](LICENSE).
+This document lists third-party components it vendors or interoperates
+with at run time; users are responsible for honouring each license.
 
 ## Vendored (shipped with this repository)
 

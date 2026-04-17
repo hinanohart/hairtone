@@ -5,11 +5,22 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · semver.
 
 ## [0.1.1] — 2026-04-18
 
+### Changed
+- **License**: switched from MIT to **Apache License 2.0** for
+  consistency with the author's other OSS projects (mosaicraft, yuragi)
+  and to obtain an explicit patent-grant clause — the industry standard
+  for ML/AI libraries. Third-party notices moved to `NOTICE.md` so the
+  `LICENSE` file is a pristine Apache-2.0 template that GitHub detects
+  correctly.
+- `torch>=2.2` floor (was `>=2.0`) so hardened `weights_only` semantics
+  are reliable across the tested range.
+
 ### Fixed
 - **License accuracy.** SegFormer checkpoint
   (`jonathandinu/face-parsing`) is now correctly documented as **non-commercial
   research & educational use only** (previously misstated as Apache 2.0).
-  This is a license *documentation* fix; the code stays MIT.
+  This is a license *documentation* fix; the project-wide code license
+  is Apache-2.0 (see the Changed section above).
 - **Out-of-the-box BiSeNet flow.** The advertised `--bisenet-weights` path
   now works without any extra setup: a zllrunning-derived BiSeNet
   architecture is vendored under `hairtone._vendor.bisenet` (MIT,
@@ -35,10 +46,6 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · semver.
 - GitHub Actions pinned to commit SHAs; explicit minimal `permissions`
   block on the CI workflow.
 - `--bisenet-module` and `--segformer-revision` CLI flags.
-
-### Changed
-- `torch>=2.2` floor (was `>=2.0`) so hardened `weights_only` semantics
-  are reliable across the tested range.
 
 ## [0.1.0] — 2026-04-18
 

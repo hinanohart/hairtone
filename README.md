@@ -22,7 +22,7 @@ hairtone photo.jpg all --out out_dir/
 > that restriction (the model was fine-tuned on CelebAMask-HQ, which is
 > research-only). Commercial users must either retrain on a permissive
 > dataset or swap in another backend via the `HairtoneBackend` protocol.
-> The hairtone **code** is MIT.
+> The hairtone **code** is Apache 2.0.
 
 ## What makes it different
 
@@ -191,7 +191,7 @@ If you use hairtone in academic work, please cite the underlying methods:
 
 ## License
 
-- Code: **MIT** (see [LICENSE](LICENSE)).
+- Code: **Apache 2.0** (see [LICENSE](LICENSE)).
 - Vendored BiSeNet: **MIT** (see [`licenses/zllrunning-MIT.txt`](licenses/zllrunning-MIT.txt)).
 - SegFormer checkpoint `jonathandinu/face-parsing`: **non-commercial research
   and educational use only** (CelebAMask-HQ lineage).
