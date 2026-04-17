@@ -1,6 +1,17 @@
-# Vendored from https://github.com/zllrunning/face-parsing.PyTorch
-# Original copyright (c) 2019 zll. Released under the MIT License.
-# See licenses/zllrunning-MIT.txt at the repo root for the full notice.
+# Vendored and modified from
+# https://github.com/zllrunning/face-parsing.PyTorch/blob/master/model.py.
+# Original copyright (c) 2019 zll. Released under the MIT License — see the
+# full text in ./LICENSE (ships inside every wheel and sdist).
+#
+# Modifications made for hairtone (2026-04-18):
+#   - removed training-only helpers (`get_params`, weight-init gymnastics)
+#   - removed the `__main__` demo block
+#   - added type annotations to public constructors
+#   - switched to a relative vendored-ResNet import
+#   - dropped the unused SpatialPath class (ContextPath handles inference)
+#
+# The forward/inference path is byte-identical in behaviour; state_dicts
+# produced against upstream zllrunning continue to load cleanly.
 
 from __future__ import annotations
 

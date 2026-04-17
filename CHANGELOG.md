@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · semver.
 
+## [0.1.2] — 2026-04-18
+
+### Fixed
+- **License compliance.** `pip install hairtone` now receives the full
+  MIT text for the vendored BiSeNet architecture, as required by MIT's
+  "shall be included in all copies" clause. The license ships three
+  ways: (1) `src/hairtone/_vendor/bisenet/LICENSE` is installed
+  alongside the vendored source, (2) `NOTICE.md` inlines the full MIT
+  text, (3) `licenses/zllrunning-MIT.txt` remains in the sdist. v0.1.1
+  wheels carried only a *reference* to `licenses/zllrunning-MIT.txt`
+  that was missing from the wheel, which we consider a packaging bug.
+- Each vendored BiSeNet file now carries a prominent modification
+  notice ("Modified 2026-04-18 for hairtone: ...") so reviewers can see
+  what differs from upstream without diffing.
+
+### Changed
+- README preset taxonomy now lists all 19 presets (`pink`, `orange`,
+  `cyan` previously omitted from the brief summary).
+
+### Added
+- README badges (PyPI / Python / License / CI / CodeQL / Downloads).
+- `KNOWN_LIMITATIONS.md` L8 (unverified BiSeNet checkpoint digest),
+  L9 (user-defined `Preset` NaN/Inf is not validated), and L10 (first
+  run SegFormer download UX).
+- CHANGELOG compare links.
+
 ## [0.1.1] — 2026-04-18
 
 ### Changed
@@ -50,6 +76,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) · semver.
 ## [0.1.0] — 2026-04-18
 
 First public release.
+
+[0.1.2]: https://github.com/hinanohart/hairtone/compare/v0.1.1...v0.1.2
+[0.1.1]: https://github.com/hinanohart/hairtone/compare/v0.1.0...v0.1.1
+[0.1.0]: https://github.com/hinanohart/hairtone/releases/tag/v0.1.0
 
 ### Added
 - SegFormer ∪ BiSeNet UNION face-parsing backend (PyTorch / HuggingFace),

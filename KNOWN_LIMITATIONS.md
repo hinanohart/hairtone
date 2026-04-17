@@ -59,3 +59,32 @@ The `_WARM_A = 148`, `_WARM_B = 128`, and L/A deviation thresholds in
 darker skin tones the "spill looks like shadow" effect may be
 under-strength or over-strength; PRs with demographic-balanced tuning
 data are welcome.
+
+## L8 — User-supplied BiSeNet checkpoints are not digest-verified
+
+Unlike wav2caption's Essentia models, the BiSeNet CelebAMask-HQ
+checkpoint does not have an officially-published SHA-256 to pin
+against. `torch.load(weights_only=True)` blocks arbitrary code
+execution, but an adversary who can swap the `.pth` you download from
+an unofficial mirror can alter segmentation output (e.g. push the hair
+mask onto a chosen region). Stick to the upstream
+[zllrunning/face-parsing.PyTorch](https://github.com/zllrunning/face-parsing.PyTorch)
+mirror and, if you need supply-chain confidence, capture the file's
+SHA-256 locally on first download and re-verify before every load.
+
+## L9 — User-defined `Preset(lab=...)` is not validated for NaN/Inf
+
+`Preset` is a thin frozen dataclass; if you pass
+`lab=(float("nan"), float("inf"), -1)` the recolor pipeline silently
+produces corrupted output (NumPy NaN propagation through LAB, then a
+uint8 cast that is formally undefined). Stick to in-range integer
+tuples (0–255 for all three channels).
+
+## L10 — Model download UX on first run can look like a hang
+
+`transformers.from_pretrained` downloads ~340 MB of SegFormer weights
+on first use. We print a single info-level log line before entering the
+download, but on slow networks the CLI can still look frozen for
+30-60 seconds. Set `HF_HUB_VERBOSITY=info` or
+`HF_HUB_DOWNLOAD_TIMEOUT=600` if you want the progress bar (some
+environments suppress it on stderr).

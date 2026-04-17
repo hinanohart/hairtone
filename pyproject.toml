@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "hairtone"
-version = "0.1.1"
+version = "0.1.2"
 description = "Portrait hair re-colouring with a SegFormer ∪ BiSeNet UNION mask, region growing, and warm-shift LAB Reinhard transfer"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -79,6 +79,13 @@ Changelog = "https://github.com/hinanohart/hairtone/blob/main/CHANGELOG.md"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/hairtone"]
+
+# Ship the MIT notice for the vendored BiSeNet at the wheel root so every
+# `pip install hairtone` honours the MIT "shall be included in all copies"
+# clause. (The canonical copy also lives beside the vendored code at
+# src/hairtone/_vendor/bisenet/LICENSE.)
+[tool.hatch.build.targets.wheel.force-include]
+"licenses/zllrunning-MIT.txt" = "licenses/zllrunning-MIT.txt"
 
 [tool.hatch.build.targets.sdist]
 include = [

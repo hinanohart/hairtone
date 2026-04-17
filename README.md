@@ -1,5 +1,12 @@
 # hairtone
 
+[![PyPI](https://img.shields.io/pypi/v/hairtone.svg)](https://pypi.org/project/hairtone/)
+[![Python](https://img.shields.io/pypi/pyversions/hairtone.svg)](https://pypi.org/project/hairtone/)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+[![CI](https://github.com/hinanohart/hairtone/actions/workflows/test.yml/badge.svg)](https://github.com/hinanohart/hairtone/actions/workflows/test.yml)
+[![CodeQL](https://github.com/hinanohart/hairtone/actions/workflows/codeql.yml/badge.svg)](https://github.com/hinanohart/hairtone/actions/workflows/codeql.yml)
+[![Downloads](https://static.pepy.tech/badge/hairtone)](https://pepy.tech/project/hairtone)
+
 **Portrait hair re-colouring with a UNION face-parsing mask and LAB colour
 transfer.**
 
@@ -118,10 +125,13 @@ transfer, mask builder, and CLI work unchanged.
 ## Presets
 
 Run `hairtone --list-presets` for the full list with hex references. The
-19 presets cover blondes (`blonde`, `honey`, `strawberry`), pastels
-(`pastel_pink`, `lavender`, `mint`), primaries (`red`, `blue`, `green`,
-`purple`), jewel tones (`hotpink`, `teal`, `turquoise`, `coral`), and
-metallics (`silver`, `ash`).
+19 presets cover:
+
+- **blondes** — `blonde`, `honey`, `strawberry`
+- **pinks & pastels** — `pastel_pink`, `pink`, `coral`, `lavender`, `mint`
+- **primaries** — `red`, `orange`, `blue`, `green`, `purple`
+- **jewel tones** — `hotpink`, `cyan`, `teal`, `turquoise`
+- **metallics** — `silver`, `ash`
 
 Each preset is a LAB tuple; you can define your own:
 

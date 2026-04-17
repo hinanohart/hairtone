@@ -8,11 +8,38 @@ with at run time; users are responsible for honouring each license.
 
 ### BiSeNet architecture code
 
-Location: `src/hairtone/_vendor/bisenet/`.
+Location: `src/hairtone/_vendor/bisenet/` (shipped with the wheel).
+
 A clean inference-only subset of
 https://github.com/zllrunning/face-parsing.PyTorch, released under the
-**MIT License**. The verbatim upstream LICENSE text is preserved at
-[`licenses/zllrunning-MIT.txt`](licenses/zllrunning-MIT.txt).
+**MIT License**. The verbatim upstream LICENSE text is copied both as
+`src/hairtone/_vendor/bisenet/LICENSE` (inside every wheel and sdist) and
+as `licenses/zllrunning-MIT.txt` (sdist only, for source-archive
+reviewers), and is also reproduced in full below:
+
+```
+MIT License
+
+Copyright (c) 2019 zll
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
 
 ## User-downloaded at run time (NOT shipped)
 

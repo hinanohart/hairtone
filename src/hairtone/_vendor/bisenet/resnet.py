@@ -1,14 +1,18 @@
-# Vendored from https://github.com/zllrunning/face-parsing.PyTorch
-# Original copyright (c) 2019 zll. Released under the MIT License.
-# See licenses/zllrunning-MIT.txt at the repo root for the full notice.
+# Vendored and modified from
+# https://github.com/zllrunning/face-parsing.PyTorch/blob/master/resnet.py.
+# Original copyright (c) 2019 zll. Released under the MIT License — see the
+# full text in ./LICENSE (ships inside every wheel and sdist).
 #
-# Vendoring rationale:
-#   - Loading this architecture from a pip-installable fork pollutes users'
-#     environments with unused training scripts, dataset loaders, etc.
-#   - zllrunning's upstream is unmaintained; we need stability.
-#   - Only the inference forward pass is used. `init_weight` no longer
-#     downloads ImageNet ResNet-18 weights because the caller always loads
-#     the CelebAMask-HQ checkpoint on top anyway.
+# Modifications made for hairtone (2026-04-18):
+#   - removed the ImageNet auto-download (`modelzoo.load_url`) at construction
+#     because the caller always overwrites with the CelebAMask-HQ state dict
+#   - removed training-only helpers (`get_params`, `init_weight`)
+#   - removed the `__main__` demo block
+#   - added type annotations and module-level helper prefixes
+#
+# Vendoring rationale: pulling the whole upstream repo via pip drags in
+# dataset loaders, trainers, and a stale pretrained-ResNet URL. hairtone
+# only needs the ContextPath forward pass, so we ship the minimal subset.
 
 from __future__ import annotations
 
