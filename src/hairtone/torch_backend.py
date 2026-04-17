@@ -33,6 +33,10 @@ _SF_SKIN = 1
 _SF_CLOTH = 18
 
 _DEFAULT_SEGFORMER_ID = "jonathandinu/face-parsing"
+#: HuggingFace commit SHA of ``jonathandinu/face-parsing`` captured on
+#: 2026-04-18. Downstream users should override this when the upstream
+#: repo updates and they want either the new version or an older pin.
+_DEFAULT_SEGFORMER_REVISION = "758b82e15a0178c9db39c1ff666a8b56e3a550c8"
 
 
 def _require_torch() -> None:
@@ -64,7 +68,10 @@ class TorchSegFormerBiSeNetBackend:
     """
 
     segformer_id: str = _DEFAULT_SEGFORMER_ID
-    segformer_revision: str | None = None  # pin a commit SHA for reproducibility
+    #: Pinned to a known-good HuggingFace commit by default so an upstream
+    #: repo takeover cannot silently change segmentation quality. Pass
+    #: ``None`` to always pull ``main``, or override with a different SHA.
+    segformer_revision: str | None = _DEFAULT_SEGFORMER_REVISION
     bisenet_weights: Path | None = None
     #: Dotted module path exposing a ``BiSeNet(n_classes=...)`` class. Defaults
     #: to hairtone's vendored copy of zllrunning/face-parsing.PyTorch so the
