@@ -29,6 +29,20 @@ def test_parser_rejects_unknown_preset() -> None:
         _build_parser().parse_args(["photo.jpg", "nonsense-preset"])
 
 
+def test_list_presets_without_positional_args(capsys) -> None:
+    rc = main(["--list-presets"])
+    out = capsys.readouterr().out
+    assert rc == 0
+    assert "blue" in out
+
+
+def test_main_missing_positional_returns_2(capsys) -> None:
+    rc = main([])
+    err = capsys.readouterr().err
+    assert rc == 2
+    assert "required" in err.lower() or "error" in err.lower()
+
+
 def test_default_out_single() -> None:
     assert _default_out_for_single(Path("/tmp/a.jpg"), "blue") == Path("/tmp/a_blue.jpg")
 

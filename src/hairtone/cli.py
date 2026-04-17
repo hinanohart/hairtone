@@ -17,10 +17,16 @@ def _build_parser() -> argparse.ArgumentParser:
         prog="hairtone",
         description="Recolour hair with a UNION face-parsing mask + LAB Reinhard.",
     )
-    p.add_argument("src", type=Path, help="Input image (any OpenCV-readable format)")
+    p.add_argument(
+        "src",
+        type=Path,
+        nargs="?",
+        help="Input image (any OpenCV-readable format)",
+    )
     p.add_argument(
         "preset",
         choices=[*list_preset_names(), "all"],
+        nargs="?",
         help="Preset key (see --list-presets), or 'all' for every preset",
     )
     p.add_argument(
@@ -97,6 +103,13 @@ def main(argv: list[str] | None = None) -> int:
     if args.list_presets:
         _print_presets()
         return 0
+
+    if args.src is None or args.preset is None:
+        print(
+            "error: src and preset are required (or use --list-presets).",
+            file=sys.stderr,
+        )
+        return 2
 
     try:
         # Deferred backend construction so --list-presets works without torch.
