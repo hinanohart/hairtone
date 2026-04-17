@@ -1,0 +1,44 @@
+MIT License
+
+Copyright (c) 2026 hairtone contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+Third-party notices
+===================
+
+This project does **not** bundle third-party weights or code, but at runtime
+it interoperates with the following:
+
+- **SegFormer face-parsing checkpoint** (``jonathandinu/face-parsing`` on
+  HuggingFace) — released under the **Apache License 2.0**. Downstream users
+  must retain its notice when redistributing.
+
+- **BiSeNet CelebAMask-HQ checkpoint** (e.g. ``zllrunning/face-parsing.PyTorch``
+  or a drop-in equivalent) — released under **MIT**. Users load their own
+  checkpoint; this project does not ship it.
+
+- **transformers** (``huggingface/transformers``) — **Apache 2.0**.
+- **torch** — **BSD-3-Clause** (and component-specific licences).
+- **opencv-python** — **Apache 2.0** (with third-party notices).
+- **numpy** — **BSD-3-Clause**. **Pillow** — **HPND**.
+
+Check each project's own LICENSE file for the authoritative terms.

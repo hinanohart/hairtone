@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.eggs/
+*.egg-info/
+*.egg
+build/
+dist/
+pip-wheel-metadata/
+
+# Virtual envs
+.venv/
+venv/
+env/
+
+# Tests / coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*~
+
+# User-downloaded model checkpoints
+*.pth
+*.bin
+*.safetensors
+weights/
+checkpoints/
+
+# Ad-hoc demo images (do not commit portraits you don't own)
+examples/*.jpg
+examples/*.jpeg
+examples/*.png
+!examples/README.md

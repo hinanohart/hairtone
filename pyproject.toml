@@ -1,0 +1,113 @@
+[build-system]
+requires = ["hatchling>=1.21"]
+build-backend = "hatchling.build"
+
+[project]
+name = "hairtone"
+version = "0.1.0"
+description = "Portrait hair re-colouring with a SegFormer ∪ BiSeNet UNION mask, region growing, and warm-shift LAB Reinhard transfer"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { file = "LICENSE" }
+authors = [{ name = "hairtone contributors" }]
+keywords = [
+    "hair-recolor",
+    "face-parsing",
+    "segformer",
+    "bisenet",
+    "lab-color-transfer",
+    "reinhard",
+    "portrait",
+    "image-processing",
+    "computer-vision",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Multimedia :: Graphics",
+    "Topic :: Scientific/Engineering :: Image Processing",
+    "Typing :: Typed",
+]
+# Security pins (keep these floors — each addresses a CVE advisory):
+#   opencv-python <4.8.1.78  → CVE-2023-4863 (libwebp heap overflow)
+#   Pillow       <11.1.0     → CVE-2023-50447 (ImageMath.eval RCE) and
+#                              CVE-2024-28219 (_imagingcms buffer overflow)
+dependencies = [
+    "numpy>=1.23.5",
+    "opencv-python>=4.8.1.78",
+    "Pillow>=11.1.0",
+]
+
+[project.optional-dependencies]
+# SegFormer pretrained weights from `jonathandinu/face-parsing` are
+# Apache-2.0 as of 2026-04. BiSeNet CelebAMask-HQ weights are typically MIT
+# from zllrunning/face-parsing.PyTorch. Both are *user-downloaded* at run
+# time — this package bundles nothing.
+#
+# Security pin:
+#   transformers <4.53.0 → CVE-2025-5197 (ReDoS) + CVE-2025-3777 (URL bypass)
+torch = [
+    "torch>=2.0",
+    "transformers>=4.53.0",
+]
+dev = [
+    "pytest>=7.4",
+    "pytest-cov>=4.1",
+    "ruff>=0.5",
+    "mypy>=1.8",
+]
+
+[project.scripts]
+hairtone = "hairtone.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/hinanohart/hairtone"
+Repository = "https://github.com/hinanohart/hairtone"
+Issues = "https://github.com/hinanohart/hairtone/issues"
+Changelog = "https://github.com/hinanohart/hairtone/blob/main/CHANGELOG.md"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/hairtone"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "src/hairtone",
+    "tests",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "pyproject.toml",
+]
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.9"
+strict = true
+warn_unused_ignores = true
+exclude = ["tests/"]
+
+[[tool.mypy.overrides]]
+module = ["cv2", "torch", "torch.*", "transformers", "PIL", "PIL.*"]
+ignore_missing_imports = true
