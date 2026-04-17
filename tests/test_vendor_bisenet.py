@@ -1,5 +1,7 @@
 """Smoke-test the vendored BiSeNet architecture without downloading weights."""
 
+from __future__ import annotations
+
 import pytest
 
 

@@ -1,5 +1,7 @@
 """Verify the decompression-bomb cap rejects oversized inputs."""
 
+from __future__ import annotations
+
 from pathlib import Path
 
 import cv2

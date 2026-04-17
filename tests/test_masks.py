@@ -1,5 +1,7 @@
 """Mask builder smoke tests — verify shapes, ranges, and edge cases."""
 
+from __future__ import annotations
+
 import numpy as np
 
 from hairtone.masks import build_hair_mask

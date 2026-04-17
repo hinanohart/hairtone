@@ -1,5 +1,7 @@
 """Exercise the LAB colour-transfer code path end-to-end without torch."""
 
+from __future__ import annotations
+
 import numpy as np
 import pytest
 

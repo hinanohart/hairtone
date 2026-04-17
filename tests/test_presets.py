@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import pytest
 
 from hairtone.presets import PRESETS, Preset, get_preset, list_preset_names
