@@ -187,7 +187,8 @@ def _erode_boundary(mask: NDArray[np.float32]) -> NDArray[np.float32]:
     binary = (mask > 0.3).astype(np.uint8)
     dist = cv2.distanceTransform(binary, cv2.DIST_L2, 5)
     edge_fade = np.clip(dist / 3.0, 0.0, 1.0).astype(np.float32)
-    return np.clip(mask * edge_fade, 0.0, 1.0).astype(np.float32)
+    out: NDArray[np.float32] = np.clip(mask * edge_fade, 0.0, 1.0).astype(np.float32)
+    return out
 
 
 def build_hair_mask(
