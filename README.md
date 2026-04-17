@@ -198,5 +198,5 @@ If you use hairtone in academic work, please cite the underlying methods:
 - BiSeNet CelebAMask-HQ checkpoint (user-supplied): **MIT** from
   [zllrunning/face-parsing.PyTorch](https://github.com/zllrunning/face-parsing.PyTorch).
 
-See the Third-party notices in [LICENSE](LICENSE) for the authoritative
-list, and [SECURITY.md](SECURITY.md) for responsible disclosure.
+Full third-party notices: [`NOTICE.md`](NOTICE.md). Responsible-disclosure
+contact: [`SECURITY.md`](SECURITY.md).
