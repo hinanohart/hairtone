@@ -133,4 +133,5 @@ def recolor(
         img_bgr.astype(np.float64) * (1.0 - mask3 * strength)
         + result_bgr.astype(np.float64) * mask3 * strength
     )
-    return np.clip(blended, 0, 255).astype(np.uint8)
+    out: NDArray[np.uint8] = np.clip(blended, 0, 255).astype(np.uint8)
+    return out

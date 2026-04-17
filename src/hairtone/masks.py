@@ -112,10 +112,12 @@ def _region_grow_boost(
     grow_fade = np.clip(1.0 - dist_from_seed / 50.0, 0.0, 1.0).astype(np.float32)
     ab_dist = np.sqrt(dA ** 2 + dB ** 2)
     color_match_ab = np.clip(1.0 - ab_dist / 2.5, 0.0, 1.0).astype(np.float32)
-    grow_value = color_match_ab * grow_fade * (grown > 0).astype(np.float32) * 0.8
+    grown_mask: NDArray[np.float32] = np.asarray(grown > 0, dtype=np.float32)
+    grow_value = color_match_ab * grow_fade * grown_mask * 0.8
     added = int(np.sum((grow_value > 0.1) & (raw_prob < 0.05)))
     log.debug("region_grow: +%d px", added)
-    return np.maximum(mask, grow_value).astype(np.float32)
+    out: NDArray[np.float32] = np.maximum(mask, grow_value).astype(np.float32)
+    return out
 
 
 def _guarantee_core_transition(
@@ -128,10 +130,14 @@ def _guarantee_core_transition(
     import cv2
     import numpy as np
 
-    core_soft = cv2.GaussianBlur((raw_prob > 0.6).astype(np.float32), (5, 5), 1.5)
-    core_soft *= (color_match > 0.3).astype(np.float32)
-    core_soft *= (skin_score < 1.0).astype(np.float32)
-    return np.maximum(mask, core_soft * 0.8).astype(np.float32)
+    core_soft: NDArray[np.float32] = np.asarray(
+        cv2.GaussianBlur(np.asarray(raw_prob > 0.6, dtype=np.float32), (5, 5), 1.5),
+        dtype=np.float32,
+    )
+    core_soft = core_soft * np.asarray(color_match > 0.3, dtype=np.float32)
+    core_soft = core_soft * np.asarray(skin_score < 1.0, dtype=np.float32)
+    out: NDArray[np.float32] = np.maximum(mask, core_soft * 0.8).astype(np.float32)
+    return out
 
 
 def _cleanup_noise(mask: NDArray[np.float32]) -> NDArray[np.float32]:
@@ -143,9 +149,10 @@ def _cleanup_noise(mask: NDArray[np.float32]) -> NDArray[np.float32]:
     u8 = (mask * 255).astype(np.uint8)
     u8 = cv2.morphologyEx(u8, cv2.MORPH_CLOSE, k, iterations=1)
     u8 = cv2.morphologyEx(u8, cv2.MORPH_OPEN, k, iterations=1)
-    cleaned = u8.astype(np.float32) / 255.0
-    cleaned = cv2.bilateralFilter(cleaned, d=9, sigmaColor=0.15, sigmaSpace=4)
-    return np.nan_to_num(cleaned, nan=0.0).astype(np.float32)
+    cleaned_f = u8.astype(np.float32) / 255.0
+    cleaned_f = cv2.bilateralFilter(cleaned_f, d=9, sigmaColor=0.15, sigmaSpace=4)
+    out: NDArray[np.float32] = np.nan_to_num(cleaned_f, nan=0.0).astype(np.float32)
+    return out
 
 
 def _attenuate_skin_cloth(
