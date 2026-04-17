@@ -17,6 +17,9 @@ def test_parser_basic() -> None:
     assert str(ns.src) == "photo.jpg"
     assert ns.preset == "blue"
     assert ns.strength == 0.85
+    # Default must point at the vendored BiSeNet so --bisenet-weights
+    # works out of the box.
+    assert ns.bisenet_module == "hairtone._vendor.bisenet"
 
 
 def test_parser_rejects_unknown_preset() -> None:

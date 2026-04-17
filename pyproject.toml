@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "hairtone"
-version = "0.1.0"
+version = "0.1.1"
 description = "Portrait hair re-colouring with a SegFormer ∪ BiSeNet UNION mask, region growing, and warm-shift LAB Reinhard transfer"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -49,15 +49,16 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-# SegFormer pretrained weights from `jonathandinu/face-parsing` are
-# Apache-2.0 as of 2026-04. BiSeNet CelebAMask-HQ weights are typically MIT
-# from zllrunning/face-parsing.PyTorch. Both are *user-downloaded* at run
-# time — this package bundles nothing.
+# The default SegFormer checkpoint (`jonathandinu/face-parsing`) is licensed
+# for **non-commercial research and educational use only** — see LICENSE.
+# The BiSeNet CelebAMask-HQ checkpoint is MIT (user-downloaded). Neither is
+# shipped with this package.
 #
-# Security pin:
-#   transformers <4.53.0 → CVE-2025-5197 (ReDoS) + CVE-2025-3777 (URL bypass)
+# Security pins:
+#   torch        <2.2     → hardened weights_only semantics only landed in 2.2+
+#   transformers <4.53.0  → CVE-2025-5197 (ReDoS) + CVE-2025-3777 (URL bypass)
 torch = [
-    "torch>=2.0",
+    "torch>=2.2",
     "transformers>=4.53.0",
 ]
 dev = [
@@ -83,9 +84,13 @@ packages = ["src/hairtone"]
 include = [
     "src/hairtone",
     "tests",
+    "licenses",
+    "examples/README.md",
     "README.md",
     "LICENSE",
     "CHANGELOG.md",
+    "KNOWN_LIMITATIONS.md",
+    "SECURITY.md",
     "pyproject.toml",
 ]
 
@@ -111,3 +116,10 @@ exclude = ["tests/"]
 [[tool.mypy.overrides]]
 module = ["cv2", "torch", "torch.*", "transformers", "PIL", "PIL.*"]
 ignore_missing_imports = true
+follow_imports = "skip"
+
+# The vendored BiSeNet architecture is a near-verbatim copy of zllrunning's
+# code; its public API is only exercised via torch (no type stubs possible).
+[[tool.mypy.overrides]]
+module = ["hairtone._vendor.*"]
+ignore_errors = true

@@ -64,8 +64,13 @@ class TorchSegFormerBiSeNetBackend:
     """
 
     segformer_id: str = _DEFAULT_SEGFORMER_ID
+    segformer_revision: str | None = None  # pin a commit SHA for reproducibility
     bisenet_weights: Path | None = None
-    bisenet_module: str = "bisenet_module"
+    #: Dotted module path exposing a ``BiSeNet(n_classes=...)`` class. Defaults
+    #: to hairtone's vendored copy of zllrunning/face-parsing.PyTorch so the
+    #: advertised ``--bisenet-weights`` flow works out of the box. Override
+    #: when you have a custom BiSeNet fork.
+    bisenet_module: str = "hairtone._vendor.bisenet"
     device: str | None = None
 
     _device_cache: str | None = field(default=None, init=False, repr=False)
@@ -101,8 +106,17 @@ class TorchSegFormerBiSeNetBackend:
         )
 
         device = self._resolved_device()
-        self._sf_proc = SegformerImageProcessor.from_pretrained(self.segformer_id)
-        model = SegformerForSemanticSegmentation.from_pretrained(self.segformer_id)
+        kwargs: dict[str, Any] = {"trust_remote_code": False}
+        if self.segformer_revision is not None:
+            kwargs["revision"] = self.segformer_revision
+        self._sf_proc = SegformerImageProcessor.from_pretrained(
+            self.segformer_id, **kwargs
+        )
+        # use_safetensors=True refuses pickled .bin checkpoints, so a
+        # compromised HF repo cannot execute code during model load.
+        model = SegformerForSemanticSegmentation.from_pretrained(
+            self.segformer_id, use_safetensors=True, **kwargs
+        )
         model.eval()
         model.to(device)
         self._sf_model = model
@@ -137,7 +151,25 @@ class TorchSegFormerBiSeNetBackend:
         net = module.BiSeNet(n_classes=19)
         # weights_only=True refuses pickled Python objects, so a malicious
         # .pth file cannot execute code during deserialization.
-        state = torch.load(str(weights_path), map_location="cpu", weights_only=True)
+        import pickle
+
+        try:
+            state = torch.load(
+                str(weights_path), map_location="cpu", weights_only=True
+            )
+        except (pickle.UnpicklingError, RuntimeError) as err:
+            raise ValueError(
+                f"BiSeNet checkpoint {weights_path} is not a plain "
+                "state_dict (or torch refused to load it in safe mode). "
+                "Only checkpoints saved with "
+                "torch.save(net.state_dict(), PATH) are supported; "
+                "module-pickled .pth files are rejected for security."
+            ) from err
+        if not isinstance(state, dict):
+            raise ValueError(
+                f"BiSeNet checkpoint {weights_path} unpickled to "
+                f"{type(state).__name__}, expected a dict / state_dict."
+            )
         net.load_state_dict(state)
         net.eval()
         device = self._resolved_device()

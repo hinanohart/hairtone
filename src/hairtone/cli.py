@@ -48,6 +48,18 @@ def _build_parser() -> argparse.ArgumentParser:
         help="Path to a BiSeNet CelebAMask-HQ .pth checkpoint. Optional; SegFormer-only fallback is used when absent.",
     )
     p.add_argument(
+        "--bisenet-module",
+        type=str,
+        default="hairtone._vendor.bisenet",
+        help="Dotted Python module exposing a BiSeNet(n_classes=19) class. Defaults to the vendored copy.",
+    )
+    p.add_argument(
+        "--segformer-revision",
+        type=str,
+        default=None,
+        help="Pin the HuggingFace SegFormer repo to a specific commit SHA for reproducibility.",
+    )
+    p.add_argument(
         "--list-presets",
         action="store_true",
         help="Print all preset keys with their hex reference and exit.",
@@ -90,7 +102,11 @@ def main(argv: list[str] | None = None) -> int:
         # Deferred backend construction so --list-presets works without torch.
         from hairtone.torch_backend import TorchSegFormerBiSeNetBackend
 
-        backend = TorchSegFormerBiSeNetBackend(bisenet_weights=args.bisenet_weights)
+        backend = TorchSegFormerBiSeNetBackend(
+            bisenet_weights=args.bisenet_weights,
+            bisenet_module=args.bisenet_module,
+            segformer_revision=args.segformer_revision,
+        )
         if args.preset == "all":
             out_dir = args.out or _default_out_dir_for_all(args.src)
             out_dir.mkdir(parents=True, exist_ok=True)
