@@ -15,6 +15,35 @@ jobs:
     steps:
       # v4.2.2
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+      # Refuse to release anything containing maintainer real-identity markers.
+      # FRAG pattern: identity tokens are split at source so this guard rule
+      # does not self-match against its own definition. Mirrors aa-animator
+      # / yuragi precedent.
+      - name: Identity-leak guard (history-wide)
+        run: |
+          set -euo pipefail
+          FRAG_A='run''za'
+          FRAG_B='DESKTOP-[A-Z0-9]+'
+          FRAG_C='/mnt/c/'
+          FRAG_D='hin''ata'
+          PATTERN="${FRAG_A}|${FRAG_A}isongpu|${FRAG_B}|${FRAG_C}|/home/${FRAG_A}|${FRAG_D}"
+          FAIL=0
+          REFS=$(git for-each-ref --format='%(refname)' refs/tags refs/heads refs/remotes)
+          REFS="HEAD $REFS"
+          for ref in $REFS; do
+            if git grep -n -E "$PATTERN" "$ref" -- \
+                ':!*.lock' ':!*.svg' ':!*.png' ':!*.jpg' ':!*.mp4' ':!*.gif' ':!*.npy' \
+                ':!.github/workflows/release.yml' \
+                > /tmp/leaks.txt 2>/dev/null; then
+              echo "::error::Identity-leak at ref $ref:"
+              cat /tmp/leaks.txt
+              FAIL=1
+            fi
+          done
+          exit $FAIL
       # v5.6.0
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
         with:
