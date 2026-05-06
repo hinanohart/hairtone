@@ -25,10 +25,10 @@ jobs:
         language: [python]
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - uses: github/codeql-action/init@aa578102511db1f4524ed59b8cc2bae4f6e88195
+      - uses: github/codeql-action/init@95e58e9a2cdfd71adc6e0353d5c52f41a045d225
         with:
           languages: ${{ matrix.language }}
           queries: security-extended,security-and-quality
-      - uses: github/codeql-action/analyze@aa578102511db1f4524ed59b8cc2bae4f6e88195
+      - uses: github/codeql-action/analyze@95e58e9a2cdfd71adc6e0353d5c52f41a045d225
         with:
           category: "/language:${{ matrix.language }}"
